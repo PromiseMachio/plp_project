@@ -48,12 +48,13 @@ Table will track type of breeds and their numbers in the farm:
 */
 CREATE TABLE breed(
 animalID INT  AUTO_INCREMENT PRIMARY KEY ,
-animalType VARCHAR(50),
-animalQuantity INT
+animalType VARCHAR(50) NOT NULL UNIQUE,
+animalQuantity INT NOT NULL
 );
 
 CREATE TABLE sheds(
 shedID VARCHAR(200) UNIQUE,
+animalBreedID INT NOT NULL,
 animalbreed VARCHAR(200),
 Capacity INT NOT NULL
 );
@@ -62,7 +63,8 @@ CREATE TABLE shedEmployees(
 employeesID VARCHAR(200) UNIQUE,
 employeeName VARCHAR(200) NOT NULL,
 employeePHoneNo VARCHAR(200) NOT NULL UNIQUE,
-employeeShed  VARCHAR(200)  REFERENCES shedID
+employeeShed  VARCHAR(200)  NOT NULL,
+FOREIGN KEY (employeeShed) REFERENCES sheds(shedID)
 );
 
 /*
@@ -143,16 +145,16 @@ INSERT INTO breed( animalType,  animalQuantity)
 VALUES 
 ('Dairy cattle', 120),
 ('Holstein Friesian', 50),
-('Ayrshire cattle', 12),
-('Guernsey cattle', 10);
+('Ayrshire cattle',  12),
+('Guernsey cattle',  10);
 
-INSERT INTO sheds(shedID, animalbreed, Capacity)
+INSERT INTO sheds(shedID, animalBreedID, animalbreed, Capacity)
 VALUES
-("#PKGH2343", "Dairy cattle", 30),
-("#PLTK2345",  "Ayrshire cattle", 15),
-("#PJKK1113", "Dairy cattle", 50),
-("#LKFH234", "Guernsey cattle", 40),
-("#JYUI567", 'Holstein Friesian', 25);
+("#PKGH2343", 654, "Dairy cattle", 30),
+("#PLTK2345", 789, "Ayrshire cattle",  15),
+("#PJKK1113", 777, "Dairy cattle",  50),
+("#LKFH234", 213, "Guernsey cattle", 40),
+("#JYUI567", 334, 'Holstein Friesian', 25);
 
 INSERT INTO shedEmployees(employeesID, employeeName, employeePHoneNo, employeeShed)
 VALUES 
@@ -308,7 +310,8 @@ CREATE TABLE Customer(
 CREATE TABLE orders(
 orderID INT AUTO_INCREMENT PRIMARY KEY,
 orderUnqID VARCHAR(200) UNIQUE,
-CustomerUniqID VARCHAR(200) UNIQUE REFERENCES CustomerID
+CustomerUniqID VARCHAR(200),
+FOREIGN KEY(CustomerUniqID) REFERENCES Customer(CustomerID)
 );
 
 CREATE TABLE orderdetails(
@@ -359,7 +362,7 @@ VALUES
 ("Joshua Willy", "joshuawilly@gmail.com", "#899HRTQ"),
 ("Shadrack Himan", "shadrackhimm890@gmail.com", "#765UKLH");
 
-INSERT INTO orders(orderUnqID, CustomerUniqID)
+INSERT INTO orders(CustomerUniqID, orderUnqID)
 VALUES
 ("#6567GHH", "@QQQW345566754"),
 ("#789JHKL", "@GHTYU56677886"),
@@ -375,6 +378,381 @@ VALUES
 ("@HJJGFD6799865", "1000 Litre", "ksh 31,0000", "2025-10-20", "2025-12-30", 'Not Done'),
 ("@LKUYR45567785", "200 Litre", "ksh 50,000", "2025-10-16", "2026-02-14", 'Not Done'),
 ("@KKLOP45567890", "560 Litre", "ksh 40,000", "2025-10-23", "2026-02-11", 'Not Done');
+
+-- ***********************************________________HELPING OUT IN DATA FILTERING USING RELATIONSHIPS___________________*********************
+
+SELECT a.animaltag_no, a.animalSex, a.agegroup, m.med_name, m.med_type, a.doctorAdministering
+FROM AnimalTraked a
+JOIN medication m ON a.medicationtypeID = m.med_typeID;
+
+SELECT od.orderDescription, od.order_bill, od.order_placedDate, od.order_expiringDate, o.CustomerUniqID
+FROM orderdetails od
+JOIN orders o ON od.orderUnqID = o.orderUnqID;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
